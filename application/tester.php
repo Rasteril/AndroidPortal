@@ -1,19 +1,36 @@
 <?php
-if( $_SERVER['HTTP_HOST'] == "localhost")
+
+
+$available_dev_hosts = array("portal.dev","www.androidportal.dev","androidportal.dev");
+if( in_array($_SERVER['HTTP_HOST'], $available_dev_hosts))
 {
-  set_include_path("C:/xampp/htdocs/application/");
+	set_include_path("C:/Developer/Projects/AndroidPortal/application/");
 }
 else 
 {
-  set_include_path("www.somewebsite/somepath/");
+	set_include_path("www.somewebsite/somepath/");
 }
 
-include_once "library/core.php";
 
+function __autoload($class_name)
+{
+	$include_directories = array("library", "view", "action", "errors", "template");
+	foreach($include_directories as $include_directory)
+	{
+		$path = $_SERVER['DOCUMENT_ROOT'] . "/application/" . $include_directory . "/" . $class_name . ".php";
+		if(file_exists($path))
+		{
+			include($path);
+		}
+		
+		else 
+		{
+			echo "The " . $class_name . " to directory " . $include_directory . " failed <br />";
+		}
+	}
+}
+$core = new Core();
+$core->setVar("newname");
+echo $core->var;
 
-$core->import("resource_loader");
-$resource_loader->load("view");
-
-
-
-
+$core->var = "This is the other value";

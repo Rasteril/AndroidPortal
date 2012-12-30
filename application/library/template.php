@@ -1,59 +1,53 @@
 <?php
 
-if( $_SERVER['HTTP_HOST'] == "localhost")
-{
-  set_include_path("C:/xampp/htdocs/application/");
-}
-else 
-{
-  set_include_path("www.somewebsite/somepath/");
-}
-
-include_once "library/core.php";
-
-
-
 class Template extends Core
 {
-	private $components = array();
+	private $components = array(); 
 	private $content = "";
-	private $content_index = 0;
 	
 	public function setComponents($components = array())
 	{
 		$this->components = $components;
 	}
 	
-	public function setContent($content = array())
+	public function setContent($content)
 	{
 		$this->content = $content;
+	}	
+	
+	private function includeComponent($component)
+	{
+		include $this->appRoot() . "template/" . $component . ".template.php";
+	}
+	
+	private function includeContent($content)
+	{
+		if(file_exists($this->appRoot() . "view/" . $content . ".php"))
+		{
+			include_once "view/" . $content . ".php";
+		}
+		else
+		{
+			include "errors/404.php";
+		}
 	}
 	
 	public function generate()
 	{
-		$component_index = 0;
+		print_r($this->components);
 		foreach($this->components as $component)
 		{
-			if($component_index == 0)
-			{
-				$this->content_index = 0;
-			}
 			
-			$component_index++;
-			
-			if($component == $this->content)
+			if($component == "_content")
 			{
-				$this->content_index = $component_index;
+				$this->includeContent($this->content);
 			}
 			
 			else
 			{
-				echo "Importing... " . $component;
-				//import($component);
+				$this->includeComponent($component);
+				echo "the component has been included <br />";
 			}
-			
 		}
 	}
 }
-
-$template = new Template();

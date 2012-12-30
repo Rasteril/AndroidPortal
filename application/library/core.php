@@ -1,95 +1,55 @@
 <?php
 
-if( $_SERVER['HTTP_HOST'] == "localhost")
-{
-  set_include_path("C:/xampp/htdocs/application/");
-}
-else 
-{
-  set_include_path("www.somewebsite/somepath/");
-}
-
 class Core 
 {
-	public function import($resource)
+	public $var = "default_value";
+	function __get($property_name)
 	{
-
-		$check_directories = array("library", "template");
-		for($i = 0; $i <= count($check_directories) - 1; $i++)
-		{
-			if(file_exists($check_directories[$i] . "/" . $resource . ".php"))
+		$include_directories = array("library", "view", "action", "errors", "template");
+		if(!property_exists(__CLASS__, $property_name))
+		{	
+			foreach($include_directories as $include_directory)
 			{
-				include ($check_directories[$i] . "/" . $resource . ".php");
-			}
-			
-			else
-			{
+				$path = $this->appRoot() . $include_directory . "/" . $property_name . ".php";
+				if(file_exists($path))
+				{
+					return new $property_name;
+					break; // exit the loop when the porperty if found
+				}
 				
-			}	
+				else 
+				{
+					
+				}
+			}
 		}
+	}
+	
+	function __set($property_name = null, $property_value)
+	{
+		echo "done here";
+		echo gettype($property_name);
 		
 	}
 	
-	/* this whole thing kinda doesn't make sense
-	public function baseUrl($type, $resource)
+	public function appRoot()
 	{
-		$base_url = "";
-		$server_url = "/".$_SERVER['HTTP_HOST'];
-		$cwd = str_replace("\\","/",getcwd());
-		$error = false;
-		
-		
-		switch($type)
-		{
-			
-			case 'css':
-			{
-				$base_url = $server_url;
-				$base_url .= "/css/";
-			} break;
-			
-			case 'img':
-			{
-				$base_url = $server_url;
-				$base_url .= "/img/";
-			} break;
-			
-			case 'js':
-			{
-				$base_url = $cwd;
-				$base_url .= "/js/";
-			} break;
-			
-			case 'resource':
-			{
-				$base_url = $server_url;
-				$base_url .= "/application/";
-			} break;
-			
-			case 'root_script':
-			{
-				$base_url = $cwd;
-				$base_url .= "/";
-			} break;
-			
-			
-			case 'script':
-			{
-				$base_url = $cwd;
-			}
-			
-			default:
-			{ 
-				$base_url = "[_NO_BASE_URL_TYPE_MATHCHING_]";
-				$error = true;
-			} break;
-		}
-		
-		if($error)
-			return $base_url;
-		else
-			return $base_url . $resource;
-	}*/
+		return $_SERVER['DOCUMENT_ROOT'] . "/application/";
+	}
+	
+	public function setvar($name)
+	{
+		$this->var = $name;
+	}
+	
+	
 }
 
-$core = new Core();
+class Someclass extends Core
+{
+	public function classmethod()
+	{
+		$this->otherclass->method();
+	}
+}
+

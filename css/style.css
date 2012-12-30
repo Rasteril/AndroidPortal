@@ -1,3 +1,65 @@
-body {
-	background-color:red;
+h1 {
+	display:block;
+	height:50px;
+	background-color:lightgrey;
+	text-align:center;
+}
+
+p {
+	border:1px solid grey;
+	display:block;
+	text-align:center;
+	padding:30px;
+}
+
+#navigation {
+	width:800px;
+	margin:0 auto;
+}
+
+#navigation ul {
+	list-style-type:none;
+	margin:0;
+	padding:0;
+}
+
+#navigation ul li {
+	display:inline-block;
+}
+
+#navigation a {
+	display:block;
+	min-width:150px;
+	padding-left:5px;
+	background-color:lightgrey;
+	border:1px solid grey;
+	color:black;
+	text-decoration:none;
+}
+
+#navigation a:hover {
+	background-color:lightblue;
+	text-decoration:underline;
+}
+
+#header {
+	display:block;
+	height:120px;
+	background-color:lightgreen;
+	text-align:center;
+	font-size:40pt;
+	margin-bottom:30px;
+}
+
+#content {
+	width:800px;
+	margin:0 auto;
+}
+
+
+#footer {
+	display:block;
+	text-align:center;
+	background-color:lightgrey;
+	height:50px;
 }

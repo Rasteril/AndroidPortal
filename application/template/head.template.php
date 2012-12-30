@@ -1,6 +1,7 @@
 <html>
 <head>
 	<title> Awesome webpage </title>
-</head>
+	<link rel = "stylesheet" href = "/css/style.css" type = "text/css"/>
 
-<link rel = "styleshet" href = "<?php echo $core->base_resource_url() ?>/css/style.css" />
+</head>
+<body>
